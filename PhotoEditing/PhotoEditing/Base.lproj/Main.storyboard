@@ -21,10 +21,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3k-pU-ZpE">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="desert" translatesAutoresizingMaskIntoConstraints="NO" id="nSa-QH-r4x">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lss-IT-Ru1">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9OI-BI-22B">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAe-04-TFS">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
@@ -67,24 +74,29 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="lAe-04-TFS" secondAttribute="trailing" id="1s9-pt-axQ"/>
                             <constraint firstItem="rSC-hS-yJR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5gx-zg-r2A"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="f3k-pU-ZpE" secondAttribute="bottom" id="OQ8-tE-o0R"/>
+                            <constraint firstAttribute="trailing" secondItem="nSa-QH-r4x" secondAttribute="trailing" id="Ejj-mK-WSq"/>
+                            <constraint firstItem="nSa-QH-r4x" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="FNZ-hP-y3z"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="nSa-QH-r4x" secondAttribute="bottom" id="NBB-mP-sHd"/>
                             <constraint firstItem="lAe-04-TFS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PYD-jo-1bv"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lss-IT-Ru1" secondAttribute="bottom" id="PiV-AV-tgo"/>
                             <constraint firstItem="rSC-hS-yJR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="R04-uu-sow"/>
                             <constraint firstAttribute="trailing" secondItem="rSC-hS-yJR" secondAttribute="trailing" id="TNW-3h-WqE"/>
-                            <constraint firstItem="f3k-pU-ZpE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bdT-AU-VAX"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="rSC-hS-yJR" secondAttribute="bottom" id="d0D-fI-ZcG"/>
                             <constraint firstItem="lAe-04-TFS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="d9J-I3-Xtm"/>
-                            <constraint firstAttribute="trailing" secondItem="f3k-pU-ZpE" secondAttribute="trailing" id="nbN-zE-snF"/>
-                            <constraint firstItem="f3k-pU-ZpE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="sv7-kE-wMI"/>
+                            <constraint firstItem="nSa-QH-r4x" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="f2w-Rm-H1B"/>
+                            <constraint firstAttribute="trailing" secondItem="lss-IT-Ru1" secondAttribute="trailing" id="fqi-fm-Wcd"/>
+                            <constraint firstItem="lss-IT-Ru1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kUf-Wx-pfp"/>
+                            <constraint firstItem="lss-IT-Ru1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="kXb-AP-7KC"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lAe-04-TFS" secondAttribute="bottom" id="yl4-YU-17e"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bQR-tS-0Rm"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="backGroundImageView" destination="nSa-QH-r4x" id="Wwp-7S-OR4"/>
+                        <outlet property="blurView" destination="lss-IT-Ru1" id="oos-Nj-WTa"/>
                         <outlet property="cameraView" destination="rSC-hS-yJR" id="QF8-RI-GvN"/>
                         <outlet property="chosePhotoButton" destination="TOy-c8-NJ4" id="Oae-Q7-btc"/>
-                        <outlet property="colorLayerView" destination="f3k-pU-ZpE" id="uzx-nz-EQv"/>
                         <outlet property="takePhotoButton" destination="8As-pN-AEr" id="u6d-XZ-BWH"/>
                         <outlet property="uiElementsView" destination="lAe-04-TFS" id="5eS-vv-6bh"/>
                     </connections>
@@ -159,4 +171,7 @@
             <point key="canvasLocation" x="909" y="346"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="desert" width="960" height="638"/>
+    </resources>
 </document>

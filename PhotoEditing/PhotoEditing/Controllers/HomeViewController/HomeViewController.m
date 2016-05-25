@@ -16,7 +16,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *takePhotoButton;
 @property (nonatomic, weak) IBOutlet UIButton *chosePhotoButton;
 @property (nonatomic, weak) IBOutlet UIView *uiElementsView;
-@property (nonatomic, weak) IBOutlet UIView *colorLayerView;
+@property (nonatomic, weak) IBOutlet UIVisualEffectView *blurView;
+@property (nonatomic, weak) IBOutlet UIImageView *backGroundImageView;
 @property (nonatomic, strong) CameraManager *cameraManager;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
@@ -56,7 +57,7 @@
 
 - (void)prepareViewForPhoto
 {
-    self.uiElementsView.hidden = self.colorLayerView.hidden = YES;
+    self.uiElementsView.hidden = self.blurView.hidden = self.backGroundImageView.hidden = YES;
 }
 
 #pragma mark -  Actions
@@ -86,7 +87,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo
 {
     __weak typeof(self) weakself = self;
-    [self dismissViewControllerAnimated:self.imagePicker completion:^()
+    [self dismissViewControllerAnimated:YES completion:^()
     {
         ImageDemonstrateController *imageVC = [weakself.storyboard instantiateViewControllerWithIdentifier:[ImageDemonstrateController storyBoardID]];
         imageVC.currentImage = image;
