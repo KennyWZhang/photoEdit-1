@@ -117,7 +117,7 @@
 
 - (UIImagePickerController *)imagePicker
 {
-    return _imagePicker =_imagePicker ? _imagePicker : [UIImagePickerController new];
+    return _imagePicker = _imagePicker ? _imagePicker : [UIImagePickerController new];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

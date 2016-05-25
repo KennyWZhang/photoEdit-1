@@ -29,6 +29,13 @@
     [self prepareViewController];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setHidden:NO];
+}
+
 #pragma mark - private methods
 
 - (IBAction)processPhoto:(id)sender
