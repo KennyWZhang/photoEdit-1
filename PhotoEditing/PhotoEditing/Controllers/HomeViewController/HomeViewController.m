@@ -18,6 +18,9 @@
 @property (nonatomic, weak) IBOutlet UIView *uiElementsView;
 @property (nonatomic, weak) IBOutlet UIVisualEffectView *blurView;
 @property (nonatomic, weak) IBOutlet UIImageView *backGroundImageView;
+@property (nonatomic, weak) IBOutlet UIButton *backButton;
+@property (nonatomic, weak) IBOutlet UIButton *captureButton;//take and capture are not the same
+
 @property (nonatomic, strong) CameraManager *cameraManager;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
@@ -30,6 +33,15 @@
     [super viewDidLoad];
     
     [self prepareViewController];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self prepareViewControllerForMenu];
+    [self.navigationController.navigationBar setHidden:YES];
+
 }
 
 #pragma mark - private methods
@@ -55,16 +67,25 @@
     [self.navigationController.navigationBar setHidden:YES];
 }
 
-- (void)prepareViewForPhoto
+- (void)prepareViewControllerForPhoto
 {
-    self.uiElementsView.hidden = self.blurView.hidden = self.backGroundImageView.hidden = YES;
+    self.blurView.hidden = self.backGroundImageView.hidden = YES;
+    self.takePhotoButton.hidden = self.chosePhotoButton.hidden = YES;
+    self.backButton.hidden = self.captureButton.hidden = NO;
+}
+
+- (void)prepareViewControllerForMenu
+{
+    self.blurView.hidden = self.backGroundImageView.hidden = NO;
+    self.takePhotoButton.hidden = self.chosePhotoButton.hidden = NO;
+    self.backButton.hidden = self.captureButton.hidden = YES;
 }
 
 #pragma mark -  Actions
 
 - (IBAction)takePhotoAction:(id)sender
 {
-    [self prepareViewForPhoto];
+    [self prepareViewControllerForPhoto];
 }
 
 - (IBAction)chosePhotoAction:(id)sender
@@ -73,6 +94,23 @@
     self.imagePicker.allowsEditing = YES;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController: self.imagePicker animated:YES completion:NULL];
+}
+
+- (IBAction)backAction:(id)sender
+{
+    [self prepareViewControllerForMenu];
+}
+
+- (IBAction)capturePhotoAction:(id)sender
+{
+    __weak typeof(self) weakself = self;
+    [self.cameraManager takePhotoWithComplition:^(UIImage *image) {
+        ImageDemonstrateController *imageVC = [weakself.storyboard instantiateViewControllerWithIdentifier:[ImageDemonstrateController storyBoardID]];
+        imageVC.currentImage = image;
+        [weakself.navigationController.navigationBar setHidden:NO];
+        [weakself.cameraManager restoreConnection];
+        [weakself.navigationController pushViewController:imageVC animated:YES];
+    }];
 }
 
 #pragma mark - lazy init

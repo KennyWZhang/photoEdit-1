@@ -19,5 +19,6 @@
 - (AVCaptureConnection *)captureConnection;
 - (void)startCameraCapturing;
 - (void)stopCameraCapturing;
+- (void)restoreConnection;
 
 @end

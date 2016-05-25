@@ -60,13 +60,38 @@
                                             <action selector="chosePhotoAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="skC-pc-WNS"/>
                                         </connections>
                                     </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4CH-et-1LK">
+                                        <rect key="frame" x="10" y="15" width="95" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Back" image="backarrow">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZL5-FP-uIV"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gyq-GI-ZVm">
+                                        <rect key="frame" x="130" y="488" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="BY2-xh-2qK"/>
+                                            <constraint firstAttribute="height" constant="60" id="jkj-sh-vgk"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="takePhoto"/>
+                                        <connections>
+                                            <action selector="capturePhotoAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RKx-QX-alx"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="8As-pN-AEr" firstAttribute="centerY" secondItem="lAe-04-TFS" secondAttribute="centerY" id="2dK-rF-HXd"/>
+                                    <constraint firstItem="4CH-et-1LK" firstAttribute="top" secondItem="lAe-04-TFS" secondAttribute="top" constant="15" id="Dx1-iM-Ad7"/>
                                     <constraint firstItem="TOy-c8-NJ4" firstAttribute="width" secondItem="8As-pN-AEr" secondAttribute="width" id="NWB-uz-3yd"/>
                                     <constraint firstItem="8As-pN-AEr" firstAttribute="centerX" secondItem="lAe-04-TFS" secondAttribute="centerX" id="OAt-hc-GW4"/>
                                     <constraint firstItem="TOy-c8-NJ4" firstAttribute="centerX" secondItem="lAe-04-TFS" secondAttribute="centerX" id="XId-a2-gUA"/>
+                                    <constraint firstAttribute="bottom" secondItem="Gyq-GI-ZVm" secondAttribute="bottom" constant="20" id="YjL-vG-38Y"/>
                                     <constraint firstItem="TOy-c8-NJ4" firstAttribute="top" secondItem="8As-pN-AEr" secondAttribute="bottom" constant="20" id="b8R-sR-X0Q"/>
+                                    <constraint firstItem="4CH-et-1LK" firstAttribute="leading" secondItem="lAe-04-TFS" secondAttribute="leading" constant="10" id="isg-Ko-8bM"/>
+                                    <constraint firstItem="Gyq-GI-ZVm" firstAttribute="centerX" secondItem="lAe-04-TFS" secondAttribute="centerX" id="mm2-Bo-yKC"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -93,9 +118,11 @@
                     <navigationItem key="navigationItem" id="bQR-tS-0Rm"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="backButton" destination="4CH-et-1LK" id="8E0-Cd-I1E"/>
                         <outlet property="backGroundImageView" destination="nSa-QH-r4x" id="Wwp-7S-OR4"/>
                         <outlet property="blurView" destination="lss-IT-Ru1" id="oos-Nj-WTa"/>
                         <outlet property="cameraView" destination="rSC-hS-yJR" id="QF8-RI-GvN"/>
+                        <outlet property="captureButton" destination="Gyq-GI-ZVm" id="Dgx-D3-kwN"/>
                         <outlet property="chosePhotoButton" destination="TOy-c8-NJ4" id="Oae-Q7-btc"/>
                         <outlet property="takePhotoButton" destination="8As-pN-AEr" id="u6d-XZ-BWH"/>
                         <outlet property="uiElementsView" destination="lAe-04-TFS" id="5eS-vv-6bh"/>
@@ -172,6 +199,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="backarrow" width="50" height="50"/>
         <image name="desert" width="960" height="638"/>
+        <image name="takePhoto" width="405" height="392"/>
     </resources>
 </document>

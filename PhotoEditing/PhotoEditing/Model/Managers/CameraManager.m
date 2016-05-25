@@ -109,6 +109,11 @@
         complition(image);
     }];
 }
+- (void)restoreConnection
+{
+    [self.cameraLayer.connection setEnabled:YES];
+}
+
 - (void)stopCameraCapturing
 {
     [self.session stopRunning];
