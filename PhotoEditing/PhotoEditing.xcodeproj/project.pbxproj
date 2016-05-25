@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E366ECE1CF6216B009A03C8 /* ImageFiltersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E366ECD1CF6216B009A03C8 /* ImageFiltersManager.m */; };
+		5E366ED01CF63CAB009A03C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E366ECF1CF63CAB009A03C8 /* CoreGraphics.framework */; };
 		5E5782161CF4E6C000071D40 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5782151CF4E6C000071D40 /* main.m */; };
 		5E5782191CF4E6C000071D40 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5782181CF4E6C000071D40 /* AppDelegate.m */; };
 		5E57821F1CF4E6C000071D40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E57821D1CF4E6C000071D40 /* Main.storyboard */; };
@@ -20,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E366ECC1CF6216B009A03C8 /* ImageFiltersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFiltersManager.h; sourceTree = "<group>"; };
+		5E366ECD1CF6216B009A03C8 /* ImageFiltersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFiltersManager.m; sourceTree = "<group>"; };
+		5E366ECF1CF63CAB009A03C8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5E5782111CF4E6C000071D40 /* PhotoEditing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E5782151CF4E6C000071D40 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5E5782171CF4E6C000071D40 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -44,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E366ED01CF63CAB009A03C8 /* CoreGraphics.framework in Frameworks */,
 				5E5782351CF4F37500071D40 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,13 +57,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E366ECA1CF6212C009A03C8 /* CameraManager */ = {
+			isa = PBXGroup;
+			children = (
+				5E57822B1CF4EC9500071D40 /* CameraManager.h */,
+				5E57822C1CF4EC9500071D40 /* CameraManager.m */,
+			);
+			name = CameraManager;
+			sourceTree = "<group>";
+		};
+		5E366ECB1CF62137009A03C8 /* ImageFiltersManager */ = {
+			isa = PBXGroup;
+			children = (
+				5E366ECC1CF6216B009A03C8 /* ImageFiltersManager.h */,
+				5E366ECD1CF6216B009A03C8 /* ImageFiltersManager.m */,
+			);
+			path = ImageFiltersManager;
+			sourceTree = "<group>";
+		};
 		5E5782081CF4E6C000071D40 = {
 			isa = PBXGroup;
 			children = (
 				5E5782131CF4E6C000071D40 /* PhotoEditing */,
 				5E5782141CF4E6C000071D40 /* Supporting Files */,
-				5E5782341CF4F37500071D40 /* AVFoundation.framework */,
 				5E5782121CF4E6C000071D40 /* Products */,
+				5E5782341CF4F37500071D40 /* AVFoundation.framework */,
+				5E366ECF1CF63CAB009A03C8 /* CoreGraphics.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,8 +122,8 @@
 		5E57822E1CF4ECA800071D40 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				5E57822B1CF4EC9500071D40 /* CameraManager.h */,
-				5E57822C1CF4EC9500071D40 /* CameraManager.m */,
+				5E366ECB1CF62137009A03C8 /* ImageFiltersManager */,
+				5E366ECA1CF6212C009A03C8 /* CameraManager */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -228,6 +253,7 @@
 			files = (
 				5E57823F1CF56E6B00071D40 /* ImageDemonstrateController.m in Sources */,
 				5E5782191CF4E6C000071D40 /* AppDelegate.m in Sources */,
+				5E366ECE1CF6216B009A03C8 /* ImageFiltersManager.m in Sources */,
 				5E57822D1CF4EC9500071D40 /* CameraManager.m in Sources */,
 				5E57823A1CF4FECA00071D40 /* UIAlertView+Blocks.m in Sources */,
 				5E5782161CF4E6C000071D40 /* main.m in Sources */,

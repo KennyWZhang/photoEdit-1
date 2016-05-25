@@ -93,10 +93,10 @@
             </objects>
             <point key="canvasLocation" x="1244" y="346"/>
         </scene>
-        <!--View Controller-->
+        <!--Image Demonstrate Controller-->
         <scene sceneID="29z-hz-9s7">
             <objects>
-                <viewController storyboardIdentifier="ImageDemonstrateController" id="yGw-PV-Bdr" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageDemonstrateController" id="yGw-PV-Bdr" customClass="ImageDemonstrateController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5sS-Cx-mH5"/>
                         <viewControllerLayoutGuide type="bottom" id="odI-JA-h2n"/>
@@ -113,7 +113,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Ubh-Rd-BmD"/>
                                 </constraints>
-                                <state key="normal" title="EditImage"/>
+                                <state key="normal" title="Edit Image"/>
+                                <connections>
+                                    <action selector="processPhoto:" destination="yGw-PV-Bdr" eventType="touchUpInside" id="uNA-il-WYg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,6 +131,9 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="currentImageView" destination="ASk-UJ-0Xz" id="5wU-Z6-taI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="35x-eP-Jc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

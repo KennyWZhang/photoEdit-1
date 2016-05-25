@@ -7,12 +7,38 @@
 //
 
 #import "ImageDemonstrateController.h"
+#import "ImageFiltersManager.h"
+
+@interface ImageDemonstrateController ()
+
+@property (nonatomic, weak) IBOutlet UIImageView *currentImageView;
+
+@end
 
 @implementation ImageDemonstrateController
 
 + (NSString *)storyBoardID
 {
     return @"ImageDemonstrateController";
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    [self prepareViewController];
+}
+
+#pragma mark - private methods
+
+- (IBAction)processPhoto:(id)sender
+{
+    self.currentImageView.image = [[ImageFiltersManager sharedInstance] processUsingPixels:self.currentImage];
+}
+
+- (void)prepareViewController
+{
+    self.currentImageView.image = self.currentImage;
 }
 
 @end
