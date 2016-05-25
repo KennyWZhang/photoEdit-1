@@ -49,6 +49,9 @@
                                         <state key="normal" title="Chose Photo">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="chosePhotoAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="skC-pc-WNS"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -88,13 +91,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1622" y="362"/>
+            <point key="canvasLocation" x="1244" y="346"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="29z-hz-9s7">
+            <objects>
+                <viewController storyboardIdentifier="ImageDemonstrateController" id="yGw-PV-Bdr" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5sS-Cx-mH5"/>
+                        <viewControllerLayoutGuide type="bottom" id="odI-JA-h2n"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="f7O-i0-GZt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="508"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YPF-aV-G5h">
+                                <rect key="frame" x="0.0" y="508" width="320" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Ubh-Rd-BmD"/>
+                                </constraints>
+                                <state key="normal" title="EditImage"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="odI-JA-h2n" firstAttribute="top" secondItem="YPF-aV-G5h" secondAttribute="bottom" id="515-Iu-4v0"/>
+                            <constraint firstItem="YPF-aV-G5h" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" id="Gf2-uv-6UB"/>
+                            <constraint firstItem="YPF-aV-G5h" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="ejA-pD-QrU"/>
+                            <constraint firstItem="ASk-UJ-0Xz" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="jFc-En-ASa"/>
+                            <constraint firstAttribute="trailing" secondItem="YPF-aV-G5h" secondAttribute="trailing" id="oBg-KU-u8d"/>
+                            <constraint firstItem="ASk-UJ-0Xz" firstAttribute="top" secondItem="f7O-i0-GZt" secondAttribute="top" id="oTq-y2-qUg"/>
+                            <constraint firstAttribute="trailing" secondItem="ASk-UJ-0Xz" secondAttribute="trailing" id="vN2-E0-cde"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="35x-eP-Jc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1609" y="346"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="duZ-zx-QjW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ndg-8d-DKi" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GWA-cA-TgE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -106,7 +150,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cNz-Yd-Ti0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="810" y="362"/>
+            <point key="canvasLocation" x="909" y="346"/>
         </scene>
     </scenes>
 </document>

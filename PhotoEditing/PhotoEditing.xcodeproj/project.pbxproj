@@ -16,6 +16,7 @@
 		5E5782331CF4F09900071D40 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5782321CF4F09900071D40 /* HomeViewController.m */; };
 		5E5782351CF4F37500071D40 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E5782341CF4F37500071D40 /* AVFoundation.framework */; };
 		5E57823A1CF4FECA00071D40 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */; };
+		5E57823F1CF56E6B00071D40 /* ImageDemonstrateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,8 @@
 		5E5782341CF4F37500071D40 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5E5782381CF4FECA00071D40 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		5E57823D1CF56E6B00071D40 /* ImageDemonstrateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDemonstrateController.h; sourceTree = "<group>"; };
+		5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDemonstrateController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +114,8 @@
 		5E5782301CF4F05C00071D40 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5E5782311CF4F09900071D40 /* HomeViewController.h */,
-				5E5782321CF4F09900071D40 /* HomeViewController.m */,
+				5E57823C1CF56E2900071D40 /* ImageController */,
+				5E57823B1CF56D4C00071D40 /* HomeViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -132,6 +135,24 @@
 				5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		5E57823B1CF56D4C00071D40 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5E5782311CF4F09900071D40 /* HomeViewController.h */,
+				5E5782321CF4F09900071D40 /* HomeViewController.m */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		5E57823C1CF56E2900071D40 /* ImageController */ = {
+			isa = PBXGroup;
+			children = (
+				5E57823D1CF56E6B00071D40 /* ImageDemonstrateController.h */,
+				5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */,
+			);
+			path = ImageController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E57823F1CF56E6B00071D40 /* ImageDemonstrateController.m in Sources */,
 				5E5782191CF4E6C000071D40 /* AppDelegate.m in Sources */,
 				5E57822D1CF4EC9500071D40 /* CameraManager.m in Sources */,
 				5E57823A1CF4FECA00071D40 /* UIAlertView+Blocks.m in Sources */,
@@ -362,6 +384,7 @@
 				5E57822A1CF4E6C000071D40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

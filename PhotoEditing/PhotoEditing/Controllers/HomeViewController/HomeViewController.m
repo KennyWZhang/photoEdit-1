@@ -8,8 +8,9 @@
 
 #import "HomeViewController.h"
 #import "CameraManager.h"
+#import "ImageDemonstrateController.h"
 
-@interface HomeViewController ()
+@interface HomeViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *cameraView;
 @property (nonatomic, weak) IBOutlet UIButton *takePhotoButton;
@@ -17,6 +18,7 @@
 @property (nonatomic, weak) IBOutlet UIView *uiElementsView;
 @property (nonatomic, weak) IBOutlet UIView *colorLayerView;
 @property (nonatomic, strong) CameraManager *cameraManager;
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
 
 @end
 
@@ -57,11 +59,40 @@
     self.uiElementsView.hidden = self.colorLayerView.hidden = YES;
 }
 
-#pragma mark - 
+#pragma mark -  Actions
 
 - (IBAction)takePhotoAction:(id)sender
 {
     [self prepareViewForPhoto];
+}
+
+- (IBAction)chosePhotoAction:(id)sender
+{
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = YES;
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController: self.imagePicker animated:YES completion:NULL];
+}
+
+#pragma mark - lazy init
+
+- (UIImagePickerController *)imagePicker
+{
+    return _imagePicker =_imagePicker ? _imagePicker : [UIImagePickerController new];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo
+{
+    __weak typeof(self) weakself = self;
+    [self dismissViewControllerAnimated:self.imagePicker completion:^()
+    {
+        ImageDemonstrateController *imageVC = [weakself.storyboard instantiateViewControllerWithIdentifier:[ImageDemonstrateController storyBoardID]];
+        imageVC.currentImage = image;
+        [weakself.navigationController.navigationBar setHidden:YES];
+        [weakself.navigationController pushViewController:imageVC animated:YES];
+    }];
 }
 
 @end
