@@ -22,6 +22,8 @@
     
     return instance;
 }
+static const int filterMatrixSize = 5;
+static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] ={{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1}};
 
 #define Mask8(x) ( (x) & 0xFF )
 #define R(x) ( Mask8(x) )
@@ -29,8 +31,12 @@
 #define B(x) ( Mask8(x >> 16) )
 #define A(x) ( Mask8(x >> 24) )
 #define RGBAMake(r, g, b, a) ( Mask8(r) | Mask8(g) << 8 | Mask8(b) << 16 | Mask8(a) << 24 )
+#define RGBMake(r, g, b) ( Mask8(r) | Mask8(g) << 8 | Mask8(b) << 16 )
 
-- (UIImage *)processUsingPixels:(UIImage *)inputImage
+
+
+
+- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -67,6 +73,65 @@
     CGContextRelease(context);
     free(inputPixels);
     
+    
+    return processedImage;
+}
+
+- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage
+{
+    UInt32 *inputPixels;
+    CGImageRef inputCGImage = [inputImage CGImage];
+    NSUInteger inputWidth = CGImageGetWidth(inputCGImage);
+    NSUInteger inputHeight = CGImageGetHeight(inputCGImage);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();//opaque type encapsulates color space information that is used to specify how Quartz interprets color information
+    NSUInteger bytesPerPixel = 4;//how much byte we need for 1 pixel
+    NSUInteger bitsPerComponent = 8;
+    NSUInteger inputBytesPerRow = bytesPerPixel * inputWidth;
+    inputPixels = (UInt32 *)calloc(inputHeight * inputWidth, sizeof(UInt32));
+    CGContextRef context = CGBitmapContextCreate(inputPixels, inputWidth, inputHeight,
+                                                 bitsPerComponent, inputBytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
+    
+    for (NSUInteger j = 2; j < inputHeight - 2; j++)
+    {
+        for (NSUInteger i = 2; i < inputWidth - 2; i++)
+        {
+            Float32 newRedColor = 0;
+            Float32 newGreenColor = 0;
+            Float32 newBlueColor = 0;
+            Float32 newA = 0;
+
+            for (int filterMatrixI = 0 ; filterMatrixI < filterMatrixSize ; filterMatrixI ++)
+            {
+                for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
+                {
+                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 2) * inputWidth) + i + filterMatrixI - 2;
+                    UInt32 color = *currentPixel;
+                    newRedColor += (R(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
+                    newGreenColor += (G(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
+                    newBlueColor += (B(color)* blurMatrix[filterMatrixI][filterMatrixJ]);
+                    newA += A(color);
+                    
+                }
+            }
+            newRedColor /= filterMatrixSize * filterMatrixSize;
+            newGreenColor /= filterMatrixSize * filterMatrixSize;
+            newBlueColor /= filterMatrixSize * filterMatrixSize;
+            newA /= filterMatrixSize * filterMatrixSize;
+
+            UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
+
+            *currentMainImagePixel = RGBAMake((UInt32)newRedColor, (UInt32)newGreenColor, (UInt32)newBlueColor, (UInt32)newA);
+        }
+    }
+    
+    CGImageRef newCGImage = CGBitmapContextCreateImage(context);
+    UIImage * processedImage = [UIImage imageWithCGImage:newCGImage];
+    
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    free(inputPixels);
     
     return processedImage;
 }

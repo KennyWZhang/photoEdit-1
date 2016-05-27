@@ -40,7 +40,7 @@
 
 - (IBAction)processPhoto:(id)sender
 {
-    self.currentImageView.image = [[ImageFiltersManager sharedInstance] processUsingPixels:self.currentImage];
+    self.currentImageView.image = [[ImageFiltersManager sharedInstance] processBlurFilterUsingPixels:self.currentImage];
 }
 
 - (void)prepareViewController

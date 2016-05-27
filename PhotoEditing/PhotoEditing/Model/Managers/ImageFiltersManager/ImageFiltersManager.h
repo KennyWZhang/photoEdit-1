@@ -12,6 +12,7 @@
 @interface ImageFiltersManager : NSObject
 
 + (instancetype)sharedInstance;
-- (UIImage *)processUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
 
 @end
