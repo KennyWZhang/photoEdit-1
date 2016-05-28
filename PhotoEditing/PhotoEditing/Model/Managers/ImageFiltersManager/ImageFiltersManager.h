@@ -14,5 +14,7 @@
 + (instancetype)sharedInstance;
 - (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage;
 
 @end
