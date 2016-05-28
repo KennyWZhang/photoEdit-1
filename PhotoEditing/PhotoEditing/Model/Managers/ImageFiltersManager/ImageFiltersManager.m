@@ -22,8 +22,10 @@
     
     return instance;
 }
-static const int filterMatrixSize = 5;
-static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] ={{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1}};
+static const int filterMatrixSize = 9;
+static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] ={{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1}};
+
+static const UInt32 motionBlurMatrix[filterMatrixSize][filterMatrixSize] ={{1,0,0,0,0,0,0,0,0},{0,1,0,0,0,0,0,0,0},{0,0,1,0,0,0,0,0,0},{0,0,0,1,0,0,0,0,0},{0,0,0,0,1,0,0,0,0},{0,0,0,0,0,1,0,0,0},{0,0,0,0,0,0,1,0,0},{0,0,0,0,0,0,0,1,0},{0,0,0,0,0,0,0,0,1}};
 
 #define Mask8(x) ( (x) & 0xFF )
 #define R(x) ( Mask8(x) )
@@ -93,9 +95,9 @@ static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] ={{1,1,1,1,1}
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (NSUInteger j = 2; j < inputHeight - 2; j++)
+    for (NSUInteger j = 4; j < inputHeight - 4; j++)
     {
-        for (NSUInteger i = 2; i < inputWidth - 2; i++)
+        for (NSUInteger i = 4; i < inputWidth - 4; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;
@@ -106,7 +108,7 @@ static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] ={{1,1,1,1,1}
             {
                 for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
                 {
-                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 2) * inputWidth) + i + filterMatrixI - 2;
+                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 4) * inputWidth) + i + filterMatrixI - 4;
                     UInt32 color = *currentPixel;
                     newRedColor += (R(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
                     newGreenColor += (G(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
