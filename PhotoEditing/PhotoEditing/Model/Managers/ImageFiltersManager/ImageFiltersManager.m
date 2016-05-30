@@ -235,14 +235,17 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
                      newA += (A(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                 }
             }
-            
+//            
 //            newRedColor /= (filterSmallMatrixSize * filterSmallMatrixSize);
 //            newGreenColor /= (filterSmallMatrixSize * filterSmallMatrixSize);
 //            newBlueColor /= (filterSmallMatrixSize * filterSmallMatrixSize) ;
 //            newA /= (filterSmallMatrixSize * filterSmallMatrixSize);
-//
+            int r = MAX( MIN((int)newRedColor,255), 0);
+            int g = MAX( MIN((int)newGreenColor,255), 0);
+            int b = MAX( MIN((int)newBlueColor,255), 0);
+            int a = MAX( MIN((int)newA,255), 0);
             UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
-            *currentMainImagePixel = RGBAMake(MAX(MIN((int)newRedColor,255), 0),MAX( MIN((int)newGreenColor,255), 0),MAX( MIN((int)newBlueColor,255), (int)newA), 0);
+            *currentMainImagePixel = RGBAMake(r,g,b,a);
         }
     }
     
