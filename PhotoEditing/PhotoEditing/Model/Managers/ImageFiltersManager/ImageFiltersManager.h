@@ -11,7 +11,10 @@
 
 @interface ImageFiltersManager : NSObject
 
+@property (nonatomic, strong) NSArray *filtersName;
+
 + (instancetype)sharedInstance;
+- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter;
 - (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage;

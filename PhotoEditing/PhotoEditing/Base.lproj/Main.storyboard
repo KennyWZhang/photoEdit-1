@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ndg-8d-DKi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ndg-8d-DKi">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -145,33 +145,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="508"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="448"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YPF-aV-G5h">
-                                <rect key="frame" x="0.0" y="508" width="320" height="60"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GgH-4m-0TY">
+                                <rect key="frame" x="0.0" y="468" width="320" height="100"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Ubh-Rd-BmD"/>
+                                    <constraint firstAttribute="height" constant="100" id="OOv-q6-81N"/>
                                 </constraints>
-                                <state key="normal" title="Edit Image"/>
-                                <connections>
-                                    <action selector="processPhoto:" destination="yGw-PV-Bdr" eventType="touchUpInside" id="uNA-il-WYg"/>
-                                </connections>
-                            </button>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Pev-Fo-Vm9">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="YIa-U7-VaH">
+                                <rect key="frame" x="141.5" y="265.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="odI-JA-h2n" firstAttribute="top" secondItem="YPF-aV-G5h" secondAttribute="bottom" id="515-Iu-4v0"/>
-                            <constraint firstItem="YPF-aV-G5h" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" id="Gf2-uv-6UB"/>
-                            <constraint firstItem="YPF-aV-G5h" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="ejA-pD-QrU"/>
+                            <constraint firstItem="ASk-UJ-0Xz" firstAttribute="top" secondItem="5sS-Cx-mH5" secondAttribute="bottom" id="4uY-Zc-dvq"/>
+                            <constraint firstAttribute="trailing" secondItem="GgH-4m-0TY" secondAttribute="trailing" id="Oxl-lw-1no"/>
+                            <constraint firstItem="odI-JA-h2n" firstAttribute="top" secondItem="GgH-4m-0TY" secondAttribute="bottom" id="VDg-Xh-YY4"/>
+                            <constraint firstItem="GgH-4m-0TY" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="WQW-W9-vdv"/>
+                            <constraint firstItem="YIa-U7-VaH" firstAttribute="centerX" secondItem="f7O-i0-GZt" secondAttribute="centerX" id="Zfl-IN-Ki4"/>
                             <constraint firstItem="ASk-UJ-0Xz" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="jFc-En-ASa"/>
-                            <constraint firstAttribute="trailing" secondItem="YPF-aV-G5h" secondAttribute="trailing" id="oBg-KU-u8d"/>
-                            <constraint firstItem="ASk-UJ-0Xz" firstAttribute="top" secondItem="f7O-i0-GZt" secondAttribute="top" id="oTq-y2-qUg"/>
+                            <constraint firstItem="YIa-U7-VaH" firstAttribute="centerY" secondItem="f7O-i0-GZt" secondAttribute="centerY" id="ka5-ra-8Md"/>
+                            <constraint firstItem="GgH-4m-0TY" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" id="o4J-LF-zix"/>
                             <constraint firstAttribute="trailing" secondItem="ASk-UJ-0Xz" secondAttribute="trailing" id="vN2-E0-cde"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="YIa-U7-VaH" id="Yzn-do-fKn"/>
                         <outlet property="currentImageView" destination="ASk-UJ-0Xz" id="5wU-Z6-taI"/>
+                        <outlet property="filterCollectionView" destination="GgH-4m-0TY" id="xHz-4r-dwu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="35x-eP-Jc2" userLabel="First Responder" sceneMemberID="firstResponder"/>

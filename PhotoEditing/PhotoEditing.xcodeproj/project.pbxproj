@@ -19,6 +19,8 @@
 		5E5782351CF4F37500071D40 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E5782341CF4F37500071D40 /* AVFoundation.framework */; };
 		5E57823A1CF4FECA00071D40 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */; };
 		5E57823F1CF56E6B00071D40 /* ImageDemonstrateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */; };
+		CE3D544F1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3D544D1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.m */; };
+		CE3D54501CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3D544E1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,9 @@
 		5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		5E57823D1CF56E6B00071D40 /* ImageDemonstrateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDemonstrateController.h; sourceTree = "<group>"; };
 		5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDemonstrateController.m; sourceTree = "<group>"; };
+		CE3D544C1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFilterCollectionViewCell.h; sourceTree = "<group>"; };
+		CE3D544D1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFilterCollectionViewCell.m; sourceTree = "<group>"; };
+		CE3D544E1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageFilterCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +136,7 @@
 		5E57822F1CF4ECAF00071D40 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CE3D54511CFC73A600AE51C9 /* Utilities */,
 				5E57822E1CF4ECA800071D40 /* Managers */,
 			);
 			path = Model;
@@ -148,9 +154,11 @@
 		5E5782361CF4FEA800071D40 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CE3D54481CFC65B200AE51C9 /* ImageColletionViewCell */,
 				5E5782371CF4FEB900071D40 /* Categories */,
 			);
-			path = Views;
+			name = Views;
+			path = Views/UIImageDemonstrateCollectionViewCell;
 			sourceTree = "<group>";
 		};
 		5E5782371CF4FEB900071D40 /* Categories */ = {
@@ -159,7 +167,8 @@
 				5E5782381CF4FECA00071D40 /* UIAlertView+Blocks.h */,
 				5E5782391CF4FECA00071D40 /* UIAlertView+Blocks.m */,
 			);
-			path = Categories;
+			name = Categories;
+			path = ../Categories;
 			sourceTree = "<group>";
 		};
 		5E57823B1CF56D4C00071D40 /* HomeViewController */ = {
@@ -178,6 +187,23 @@
 				5E57823E1CF56E6B00071D40 /* ImageDemonstrateController.m */,
 			);
 			path = ImageController;
+			sourceTree = "<group>";
+		};
+		CE3D54481CFC65B200AE51C9 /* ImageColletionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CE3D544C1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.h */,
+				CE3D544D1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.m */,
+				CE3D544E1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.xib */,
+			);
+			name = ImageColletionViewCell;
+			sourceTree = "<group>";
+		};
+		CE3D54511CFC73A600AE51C9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +266,7 @@
 			files = (
 				5E5782241CF4E6C000071D40 /* LaunchScreen.storyboard in Resources */,
 				5E5782211CF4E6C000071D40 /* Assets.xcassets in Resources */,
+				CE3D54501CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.xib in Resources */,
 				5E57821F1CF4E6C000071D40 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,6 +282,7 @@
 				5E5782191CF4E6C000071D40 /* AppDelegate.m in Sources */,
 				5E366ECE1CF6216B009A03C8 /* ImageFiltersManager.m in Sources */,
 				5E57822D1CF4EC9500071D40 /* CameraManager.m in Sources */,
+				CE3D544F1CFC66BE00AE51C9 /* ImageFilterCollectionViewCell.m in Sources */,
 				5E57823A1CF4FECA00071D40 /* UIAlertView+Blocks.m in Sources */,
 				5E5782161CF4E6C000071D40 /* main.m in Sources */,
 				5E5782331CF4F09900071D40 /* HomeViewController.m in Sources */,

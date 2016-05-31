@@ -22,9 +22,35 @@
     
     return instance;
 }
+
+- (instancetype)init
+{
+    self = [super init];
+    
+    if (self)
+    {
+        _filtersName = @[@"Grey",@"Blur",@"Motion Blur",@"Sharp"];
+    }
+    
+    return self;
+}
+
+- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter;
+{
+    if ([filter isEqualToString:@"Grey"])
+        return [self processBlackFilterUsingPixels:originalImage];
+    else if ([filter isEqualToString:@"Blur"])
+        return [self processBlurFilterUsingPixels:originalImage];
+    else if ([filter isEqualToString:@"Motion Blur"])
+        return [self processMotionBlurFilterUsingPixels:originalImage];
+    else if ([filter isEqualToString:@"Sharp"])
+        return [self processSharpFilterUsingPixels:originalImage];
+    else
+        return nil;
+}
+
 static const int filterMatrixSize = 9;
 static const int filterSmallMatrixSize = 3;
-
 static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] = {{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1},{1,1,1,1,1,1,1,1,1}};
 static const UInt32 motionBlurMatrix[filterMatrixSize][filterMatrixSize] = {{1,0,0,0,0,0,0,0,0},{0,1,0,0,0,0,0,0,0},{0,0,1,0,0,0,0,0,0},{0,0,0,1,0,0,0,0,0},{0,0,0,0,1,0,0,0,0},{0,0,0,0,0,1,0,0,0},{0,0,0,0,0,0,1,0,0},{0,0,0,0,0,0,0,1,0},{0,0,0,0,0,0,0,0,1}};
 static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-1, -1, -1},{-1, 9, -1},{-1, -1, -1}};
@@ -204,8 +230,8 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
     CGImageRef inputCGImage = [inputImage CGImage];
     NSUInteger inputWidth = CGImageGetWidth(inputCGImage);
     NSUInteger inputHeight = CGImageGetHeight(inputCGImage);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();//opaque type encapsulates color space information that is used to specify how Quartz interprets color information
-    NSUInteger bytesPerPixel = 4;//how much byte we need for 1 pixel
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    NSUInteger bytesPerPixel = 4;
     NSUInteger bitsPerComponent = 8;
     NSUInteger inputBytesPerRow = bytesPerPixel * inputWidth;
     inputPixels = (UInt32 *)calloc(inputHeight * inputWidth, sizeof(UInt32));
@@ -235,15 +261,34 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
                      newA += (A(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                 }
             }
-//            
-//            newRedColor /= (filterSmallMatrixSize * filterSmallMatrixSize);
-//            newGreenColor /= (filterSmallMatrixSize * filterSmallMatrixSize);
-//            newBlueColor /= (filterSmallMatrixSize * filterSmallMatrixSize) ;
-//            newA /= (filterSmallMatrixSize * filterSmallMatrixSize);
-            int r = MAX( MIN((int)newRedColor,255), 0);
-            int g = MAX( MIN((int)newGreenColor,255), 0);
-            int b = MAX( MIN((int)newBlueColor,255), 0);
-            int a = MAX( MIN((int)newA,255), 0);
+            
+            int r = 0;
+            int b = 0;
+            int g = 0;
+            int a = 0;
+            
+            
+            if (newRedColor < 0 || newRedColor > 255)
+                r = (int)(((newRedColor + 2040.0) * 255.0)/4335.0);
+            else
+                r = MAX( MIN((int)newRedColor,255), 0);
+            
+            if (newBlueColor < 0 || newBlueColor > 255)
+                b = (int)(((newBlueColor + 2040.0) * 255.0)/4335.0);
+            else
+                b = MAX( MIN((int)newBlueColor,255), 0);
+            
+            if (newGreenColor < 0 || newGreenColor > 255)
+                g = (int)(((newGreenColor + 2040.0) * 255.0)/4335.0);
+            else
+                g = MAX( MIN((int)newGreenColor,255), 0);
+            
+            if (newA < 0 || newA > 255)
+                a = (int)(((newA + 2040.0) * 255.0)/4335.0);
+            else
+                a = MAX( MIN((int)newA,255), 0);
+
+            a = 255;
             UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
             *currentMainImagePixel = RGBAMake(r,g,b,a);
         }
