@@ -29,7 +29,7 @@
     
     if (self)
     {
-        _filtersName = @[@"Grey",@"Blur",@"Motion Blur",@"Sharp"];
+        _filtersName = @[@"Original", @"Grey",@"Blur",@"Motion Blur",@"Sharp"];
     }
     
     return self;
@@ -45,6 +45,9 @@
         return [self processMotionBlurFilterUsingPixels:originalImage];
     else if ([filter isEqualToString:@"Sharp"])
         return [self processSharpFilterUsingPixels:originalImage];
+    else if ([filter isEqualToString:@"Original"])
+        return originalImage;
+    
     else
         return nil;
 }
@@ -239,7 +242,8 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
                                                  bitsPerComponent, inputBytesPerRow, colorSpace,
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
-    
+    UInt32 *origPixels = calloc(inputHeight * inputWidth, sizeof(UInt32));
+    memcpy(origPixels, inputPixels, inputHeight * inputWidth * sizeof(UInt32));
     for (NSUInteger j = 1; j < inputHeight - 1; j++)
     {
         for (NSUInteger i = 1; i < inputWidth - 1; i++)
@@ -253,7 +257,7 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
             {
                 for (int filterMatrixJ = 0; filterMatrixJ < filterSmallMatrixSize; filterMatrixJ ++)
                 {
-                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 1) * inputWidth) + i + filterMatrixI - 1;
+                    UInt32 * currentPixel = origPixels + ((j + filterMatrixJ - 1) * inputWidth) + i + filterMatrixI - 1;
                     int color = *currentPixel;
                     newRedColor += (R(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                     newGreenColor += (G(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
@@ -262,33 +266,11 @@ static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-
                 }
             }
             
-            int r = 0;
-            int b = 0;
-            int g = 0;
-            int a = 0;
-            
-            
-            if (newRedColor < 0 || newRedColor > 255)
-                r = (int)(((newRedColor + 2040.0) * 255.0)/4335.0);
-            else
-                r = MAX( MIN((int)newRedColor,255), 0);
-            
-            if (newBlueColor < 0 || newBlueColor > 255)
-                b = (int)(((newBlueColor + 2040.0) * 255.0)/4335.0);
-            else
-                b = MAX( MIN((int)newBlueColor,255), 0);
-            
-            if (newGreenColor < 0 || newGreenColor > 255)
-                g = (int)(((newGreenColor + 2040.0) * 255.0)/4335.0);
-            else
-                g = MAX( MIN((int)newGreenColor,255), 0);
-            
-            if (newA < 0 || newA > 255)
-                a = (int)(((newA + 2040.0) * 255.0)/4335.0);
-            else
-                a = MAX( MIN((int)newA,255), 0);
+            int r = MAX( MIN((int)newRedColor,255), 0);
+            int b = MAX( MIN((int)newBlueColor,255), 0);
+            int g = MAX( MIN((int)newGreenColor,255), 0);
+            int a = MAX( MIN((int)newA,255), 0);
 
-            a = 255;
             UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
             *currentMainImagePixel = RGBAMake(r,g,b,a);
         }
