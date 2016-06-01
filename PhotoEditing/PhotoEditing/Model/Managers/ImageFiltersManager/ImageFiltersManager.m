@@ -29,7 +29,7 @@
     
     if (self)
     {
-        _filtersName = @[@"Original", @"Grey",@"Blur",@"Motion Blur",@"Sharp",@"Edge"];
+        _filtersName = @[@"Original", @"Grey", @"Blur", @"Motion Blur", @"Sharp", @"Edge"];
     }
     
     return self;
@@ -49,6 +49,8 @@
         return originalImage;
     else if ([filter isEqualToString:@"Edge"])
         return [self processEdgeDetectionFilterUsingPixels:originalImage];
+    else if ([filter isEqualToString:@"Emboss"])
+        return [self processEmbossFilterUsingPixels:originalImage];
     else
         return nil;
 }
@@ -59,6 +61,7 @@ static const UInt32 blurMatrix[filterMatrixSize][filterMatrixSize] = {{1,1,1,1,1
 static const UInt32 motionBlurMatrix[filterMatrixSize][filterMatrixSize] = {{1,0,0,0,0,0,0,0,0},{0,1,0,0,0,0,0,0,0},{0,0,1,0,0,0,0,0,0},{0,0,0,1,0,0,0,0,0},{0,0,0,0,1,0,0,0,0},{0,0,0,0,0,1,0,0,0},{0,0,0,0,0,0,1,0,0},{0,0,0,0,0,0,0,1,0},{0,0,0,0,0,0,0,0,1}};
 static const int sharpMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-1, -1, -1},{-1, 9, -1},{-1, -1, -1}};
 static const int edgeDetectionMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-1, -1, -1},{-1, 8, -1},{-1, -1, -1}};
+static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{-2, -1, 0},{-1, 1, 1},{0, 1, 2}};
 
 #define Mask8(x) ( (x) & 0xFF )
 #define R(x) ( Mask8(x) )
@@ -287,6 +290,7 @@ static const int edgeDetectionMatrix[filterSmallMatrixSize][filterSmallMatrixSiz
     
     return processedImage;
 }
+
 - (UIImage *)processEdgeDetectionFilterUsingPixels:(UIImage *)inputImage
 {
     UInt32 *inputPixels;
@@ -344,7 +348,65 @@ static const int edgeDetectionMatrix[filterSmallMatrixSize][filterSmallMatrixSiz
     free(inputPixels);
     
     return processedImage;
+}
 
+- (UIImage *)processEmbossFilterUsingPixels:(UIImage *)inputImage
+{
+    UInt32 *inputPixels;
+    CGImageRef inputCGImage = [inputImage CGImage];
+    NSUInteger inputWidth = CGImageGetWidth(inputCGImage);
+    NSUInteger inputHeight = CGImageGetHeight(inputCGImage);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bitsPerComponent = 8;
+    NSUInteger inputBytesPerRow = bytesPerPixel * inputWidth;
+    inputPixels = (UInt32 *)calloc(inputHeight * inputWidth, sizeof(UInt32));
+    CGContextRef context = CGBitmapContextCreate(inputPixels, inputWidth, inputHeight,
+                                                 bitsPerComponent, inputBytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
+    UInt32 *origPixels = calloc(inputHeight * inputWidth, sizeof(UInt32));
+    memcpy(origPixels, inputPixels, inputHeight * inputWidth * sizeof(UInt32));
+    for (NSUInteger j = 1; j < inputHeight - 1; j++)
+    {
+        for (NSUInteger i = 1; i < inputWidth - 1; i++)
+        {
+            Float32 newRedColor = 0;
+            Float32 newGreenColor = 0;
+            Float32 newBlueColor = 0;
+            Float32 newA = 0;
+            
+            for (int filterMatrixI = 0 ; filterMatrixI < filterSmallMatrixSize ; filterMatrixI ++)
+            {
+                for (int filterMatrixJ = 0; filterMatrixJ < filterSmallMatrixSize; filterMatrixJ ++)
+                {
+                    UInt32 * currentPixel = origPixels + ((j + filterMatrixJ - 1) * inputWidth) + i + filterMatrixI - 1;
+                    int color = *currentPixel;
+                    newRedColor += (R(color) * embossMatrix[filterMatrixI][filterMatrixJ]);
+                    newGreenColor += (G(color) * embossMatrix[filterMatrixI][filterMatrixJ]);
+                    newBlueColor += (B(color)* embossMatrix[filterMatrixI][filterMatrixJ]);
+                    newA += (A(color) * embossMatrix[filterMatrixI][filterMatrixJ]);
+                }
+            }
+            
+            int r = MAX( MIN((int)newRedColor,255), 0);
+            int b = MAX( MIN((int)newBlueColor,255), 0);
+            int g = MAX( MIN((int)newGreenColor,255), 0);
+            int a = MAX( MIN((int)newA,255), 0);
+            
+            UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
+            *currentMainImagePixel = RGBAMake(r,g,b,a);
+        }
+    }
+    
+    CGImageRef newCGImage = CGBitmapContextCreateImage(context);
+    UIImage * processedImage = [UIImage imageWithCGImage:newCGImage];
+    
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    free(inputPixels);
+    
+    return processedImage;
 }
 
 #undef RGBAMake

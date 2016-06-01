@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ndg-8d-DKi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ndg-8d-DKi">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -126,6 +126,7 @@
                         <outlet property="chosePhotoButton" destination="TOy-c8-NJ4" id="Oae-Q7-btc"/>
                         <outlet property="takePhotoButton" destination="8As-pN-AEr" id="u6d-XZ-BWH"/>
                         <outlet property="uiElementsView" destination="lAe-04-TFS" id="5eS-vv-6bh"/>
+                        <segue destination="yGw-PV-Bdr" kind="show" id="wwL-jb-Wza"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -144,12 +145,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
                                 <rect key="frame" x="0.0" y="20" width="320" height="448"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GgH-4m-0TY">
                                 <rect key="frame" x="0.0" y="468" width="320" height="100"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="OOv-q6-81N"/>
                                 </constraints>
@@ -162,10 +163,10 @@
                                 <cells/>
                             </collectionView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="YIa-U7-VaH">
-                                <rect key="frame" x="141.5" y="265.5" width="37" height="37"/>
+                                <rect key="frame" x="142" y="266" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ASk-UJ-0Xz" firstAttribute="top" secondItem="5sS-Cx-mH5" secondAttribute="bottom" id="4uY-Zc-dvq"/>
                             <constraint firstAttribute="trailing" secondItem="GgH-4m-0TY" secondAttribute="trailing" id="Oxl-lw-1no"/>
@@ -178,6 +179,13 @@
                             <constraint firstAttribute="trailing" secondItem="ASk-UJ-0Xz" secondAttribute="trailing" id="vN2-E0-cde"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="opc-xj-D8c">
+                        <barButtonItem key="rightBarButtonItem" title="Apply" id="aIf-h6-UFU">
+                            <connections>
+                                <action selector="applyAction:" destination="yGw-PV-Bdr" id="iK6-r3-6RN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="activityIndicator" destination="YIa-U7-VaH" id="Yzn-do-fKn"/>
@@ -198,6 +206,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GWA-cA-TgE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

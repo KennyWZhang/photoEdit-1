@@ -42,6 +42,14 @@ static const CGFloat kCollectionViewInset = 10.0;
     [self.navigationController.navigationBar setHidden:NO];
 }
 
+#pragma mark - Actions
+
+- (IBAction)applyAction:(id)sender
+{
+    self.currentImage = self.currentImageView.image;
+    [self.filterCollectionView reloadData];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
