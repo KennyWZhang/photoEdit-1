@@ -62,9 +62,14 @@ static const CGFloat kCollectionViewInset = 10.0;
     ImageFilterCollectionViewCell *cell = [self.filterCollectionView dequeueReusableCellWithReuseIdentifier:[ImageFilterCollectionViewCell storyboardID] forIndexPath:indexPath];
     cell.filterName = self.filtersNameDataSource[indexPath.row];
     [cell.activityIndicator startAnimating];
-    
+    UIImage *tmpImage = self.currentImage;
+    CGSize newSize = CGSizeMake(self.filterCollectionView.bounds.size.height - kCollectionViewInset, self.filterCollectionView.bounds.size.height);
+    UIGraphicsBeginImageContext(newSize);
+    [tmpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:self.currentImage withFilter:self.filtersNameDataSource[indexPath.row]];
+        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:newImage withFilter:self.filtersNameDataSource[indexPath.row]];
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.image = image;
             [cell.activityIndicator stopAnimating];
