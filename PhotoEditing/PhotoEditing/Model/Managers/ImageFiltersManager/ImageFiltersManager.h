@@ -19,5 +19,6 @@
 - (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processEdgeDetectionFilterUsingPixels:(UIImage *)inputImage;
 
 @end
