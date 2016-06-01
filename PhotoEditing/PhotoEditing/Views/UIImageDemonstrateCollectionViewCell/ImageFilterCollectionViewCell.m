@@ -45,4 +45,9 @@
     self.imageView.image = _image;
 }
 
+- (void)prepareForReuse
+{
+    _imageView.image = nil;
+    _filterNameLabel.text = nil;
+}
 @end

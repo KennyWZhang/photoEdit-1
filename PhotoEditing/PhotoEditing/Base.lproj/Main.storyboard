@@ -145,8 +145,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
-                                <rect key="frame" x="0.0" y="20" width="320" height="448"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASk-UJ-0Xz">
+                                <rect key="frame" x="0.0" y="64" width="320" height="394"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GgH-4m-0TY">
                                 <rect key="frame" x="0.0" y="468" width="320" height="100"/>
@@ -175,7 +175,7 @@
                             <constraint firstItem="YIa-U7-VaH" firstAttribute="centerX" secondItem="f7O-i0-GZt" secondAttribute="centerX" id="Zfl-IN-Ki4"/>
                             <constraint firstItem="ASk-UJ-0Xz" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="jFc-En-ASa"/>
                             <constraint firstItem="YIa-U7-VaH" firstAttribute="centerY" secondItem="f7O-i0-GZt" secondAttribute="centerY" id="ka5-ra-8Md"/>
-                            <constraint firstItem="GgH-4m-0TY" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" id="o4J-LF-zix"/>
+                            <constraint firstItem="GgH-4m-0TY" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" constant="10" id="o4J-LF-zix"/>
                             <constraint firstAttribute="trailing" secondItem="ASk-UJ-0Xz" secondAttribute="trailing" id="vN2-E0-cde"/>
                         </constraints>
                     </view>
