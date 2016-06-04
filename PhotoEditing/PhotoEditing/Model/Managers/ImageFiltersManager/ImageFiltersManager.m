@@ -131,9 +131,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (NSUInteger j = 4; j < inputHeight - 4; j++)
+    for (int j = 0; j < inputHeight; j++)
     {
-        for (NSUInteger i = 4; i < inputWidth - 4; i++)
+        for (int i = 0; i < inputWidth; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;
@@ -144,7 +144,21 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
             {
                 for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
                 {
-                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 4) * inputWidth) + i + filterMatrixI - 4;
+                    int mirroredIndexJ = j;
+                    int mirroredIndexI = i;
+                    
+                    if (i < 4)
+                        mirroredIndexI = 4 - i;
+                    else if (inputWidth - i < 4)
+                        mirroredIndexI -= (4 - (inputWidth - i));
+                    
+                    if (j < 4)
+                        mirroredIndexJ = 4 - j;
+                    else if (inputHeight - j < 4)
+                        mirroredIndexJ -= (4 - (inputHeight - j));
+
+                    
+                    UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
                     UInt32 color = *currentPixel;
                     newRedColor += (R(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
                     newGreenColor += (G(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
@@ -190,9 +204,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (NSUInteger j = 4; j < inputHeight - 4; j++)
+    for (int j = 0; j < inputHeight; j++)
     {
-        for (NSUInteger i = 4; i < inputWidth - 4; i++)
+        for (int i = 0; i < inputWidth; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;
@@ -203,7 +217,21 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
             {
                 for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
                 {
-                    UInt32 * currentPixel = inputPixels + ((j + filterMatrixJ - 4) * inputWidth) + i + filterMatrixI - 4;
+                    int mirroredIndexJ = j;
+                    int mirroredIndexI = i;
+                    
+                    if (i < 4)
+                        mirroredIndexI = 4 - i;
+                    else if (inputWidth - i < 4)
+                        mirroredIndexI -= (4 - (inputWidth - i));
+                    
+                    if (j < 4)
+                        mirroredIndexJ = 4 - j;
+                    else if (inputHeight - j < 4)
+                        mirroredIndexJ -= (4 - (inputHeight - j));
+                    
+                    
+                    UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
                     UInt32 color = *currentPixel;
                     newRedColor += (R(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
                     newGreenColor += (G(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
@@ -249,9 +277,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     UInt32 *origPixels = calloc(inputHeight * inputWidth, sizeof(UInt32));
     memcpy(origPixels, inputPixels, inputHeight * inputWidth * sizeof(UInt32));
-    for (NSUInteger j = 1; j < inputHeight - 1; j++)
+    for (int j = 1; j < inputHeight - 1; j++)
     {
-        for (NSUInteger i = 1; i < inputWidth - 1; i++)
+        for (int i = 1; i < inputWidth - 1; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;
@@ -287,6 +315,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     free(inputPixels);
+    free(origPixels);
     
     return processedImage;
 }
@@ -346,6 +375,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     free(inputPixels);
+    free(origPixels);
     
     return processedImage;
 }
@@ -405,6 +435,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     free(inputPixels);
+    free(origPixels);
     
     return processedImage;
 }

@@ -103,7 +103,7 @@
         {
             UIImage *flippedImage = [UIImage imageWithCGImage:image.CGImage
                                                         scale:image.scale
-                                                  orientation:UIImageOrientationLeftMirrored];
+                                                  orientation:UIImageOrientationUp];
             image = flippedImage;
         }
         complition(image);

@@ -20,6 +20,7 @@
 @end
 
 static const CGFloat kCollectionViewInset = 10.0;
+static const CGFloat kCollectionViewCellWidth = 110.f;
 
 @implementation ImageDemonstrateController
 
@@ -99,7 +100,7 @@ static const CGFloat kCollectionViewInset = 10.0;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(self.filterCollectionView.bounds.size.height - kCollectionViewInset, self.filterCollectionView.bounds.size.height);
+    return CGSizeMake(kCollectionViewCellWidth - kCollectionViewInset, self.filterCollectionView.bounds.size.height);
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
