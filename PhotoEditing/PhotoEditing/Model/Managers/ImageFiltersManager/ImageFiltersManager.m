@@ -131,9 +131,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (int j = 0; j < inputHeight; j++)
+    for (int j = 4; j < inputHeight - 4; j++)
     {
-        for (int i = 0; i < inputWidth; i++)
+        for (int i = 4; i < inputWidth - 4; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;
@@ -204,9 +204,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (int j = 0; j < inputHeight; j++)
+    for (int j = 4; j < inputHeight - 4; j++)
     {
-        for (int i = 0; i < inputWidth; i++)
+        for (int i = 4; i < inputWidth - 4; i++)
         {
             Float32 newRedColor = 0;
             Float32 newGreenColor = 0;

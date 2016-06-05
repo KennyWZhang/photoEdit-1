@@ -120,11 +120,13 @@ static const CGFloat kSliderConstantWidht = 31.f;
 {
     [self.filterCollectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self.activityIndicator startAnimating];
+    self.filterCollectionView.userInteractionEnabled = NO;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:self.currentImage withFilter:self.filtersNameDataSource[indexPath.row]];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.currentImageView.image = image;
             [self.activityIndicator stopAnimating];
+            self.filterCollectionView.userInteractionEnabled = YES;
         });
     });
 }
@@ -182,11 +184,12 @@ static const CGFloat kSliderConstantWidht = 31.f;
 
 - (void)createSlider
 {
-    UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), CGRectGetHeight(self.currentImageView.frame) / 2.f, kSliderConstantWidht)];
+    UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame) - kSliderConstantWidht, CGRectGetHeight(self.currentImageView.frame) / 2.f, kSliderConstantWidht)];
     slider.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
     [self.view addSubview:slider];
     self.slider = slider;
     CGFloat div = self.view.frame.size.width - self.slider.center.x;
+    self.slider.tintColor = [UIColor grayColor];
     
     if (div > kSliderRightOffset)
         self.slider.center = CGPointMake(self.slider.center.x + div - kSliderRightOffset, self.slider.center.y);
