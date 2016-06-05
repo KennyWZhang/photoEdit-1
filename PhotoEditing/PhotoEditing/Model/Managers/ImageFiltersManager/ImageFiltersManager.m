@@ -35,10 +35,10 @@
     return self;
 }
 
-- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter;
+- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter depth:(NSInteger)depth;
 {
     if ([filter isEqualToString:@"Grey"])
-        return [self processBlackFilterUsingPixels:originalImage];
+        return [self processBlackFilterUsingPixels:originalImage withDepth:depth];
     else if ([filter isEqualToString:@"Blur"])
         return [self processBlurFilterUsingPixels:originalImage];
     else if ([filter isEqualToString:@"Motion Blur"])
@@ -74,7 +74,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
 
 
 
-- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage
+- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -97,8 +97,12 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
         {
             UInt32 * currentPixel = inputPixels + (j * inputWidth) + i;
             UInt32 color = *currentPixel;
+            UInt32 averageColor ;
             // Average of RGB = greyscale
-            UInt32 averageColor = (R(color) + G(color) + B(color)) / 3.0;
+            if (!depth || depth > 255)
+                averageColor = (R(color) + G(color) + B(color)) / 3.0;
+            else
+                averageColor = (R(color) + G(color) + B(color)) / depth;
             
             *currentPixel = RGBAMake(averageColor, averageColor, averageColor, A(color));
         }

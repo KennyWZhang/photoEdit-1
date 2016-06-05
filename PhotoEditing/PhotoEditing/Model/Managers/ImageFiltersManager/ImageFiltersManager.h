@@ -14,8 +14,8 @@
 @property (nonatomic, strong) NSArray *filtersName;
 
 + (instancetype)sharedInstance;
-- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter;
-- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter depth:(NSInteger)depth;
+- (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth;
 - (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage;

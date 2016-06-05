@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray<NSString *> *filtersNameDataSource;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIImage *backupImage;
+@property (nonatomic, assign) NSInteger currentFilterIndex;
 
 @end
 
@@ -29,6 +30,7 @@ static const CGFloat kCollectionViewInset = 10.0;
 static const CGFloat kCollectionViewCellWidth = 110.f;
 static const CGFloat kSliderRightOffset = 20.f;
 static const CGFloat kSliderConstantWidht = 31.f;
+static const CGFloat kSliderTopOffset = 40.f;
 
 @implementation ImageDemonstrateController
 
@@ -104,7 +106,7 @@ static const CGFloat kSliderConstantWidht = 31.f;
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:newImage withFilter:self.filtersNameDataSource[indexPath.row]];
+        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:newImage withFilter:self.filtersNameDataSource[indexPath.row] depth:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.image = image;
             [cell.activityIndicator stopAnimating];
@@ -118,11 +120,14 @@ static const CGFloat kSliderConstantWidht = 31.f;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.slider.hidden = !indexPath.row;
     [self.filterCollectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self.activityIndicator startAnimating];
+    self.currentFilterIndex = indexPath.row;
     self.filterCollectionView.userInteractionEnabled = NO;
+    [self.slider setValue:0.f];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:self.currentImage withFilter:self.filtersNameDataSource[indexPath.row]];
+        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:self.currentImage withFilter:self.filtersNameDataSource[indexPath.row] depth:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.currentImageView.image = image;
             [self.activityIndicator stopAnimating];
@@ -192,7 +197,24 @@ static const CGFloat kSliderConstantWidht = 31.f;
     self.slider.tintColor = [UIColor grayColor];
     
     if (div > kSliderRightOffset)
-        self.slider.center = CGPointMake(self.slider.center.x + div - kSliderRightOffset, self.slider.center.y);
+        self.slider.center = CGPointMake(self.slider.center.x + div - kSliderRightOffset, self.slider.center.y - kSliderTopOffset);
+    [self.slider setContinuous:NO];
+    [self.slider addTarget:self action:@selector(editImageFilterDepth) forControlEvents:UIControlEventValueChanged];
+    self.slider.hidden = YES;
+}
+
+- (void)editImageFilterDepth//depth between 0 and 1
+{
+    [self.activityIndicator startAnimating];
+    self.filterCollectionView.userInteractionEnabled = NO;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:self.currentImage withFilter:self.filtersNameDataSource[self.currentFilterIndex] depth:(int)(self.slider.value * 10.f)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.currentImageView.image = image;
+            [self.activityIndicator stopAnimating];
+            self.filterCollectionView.userInteractionEnabled = YES;
+        });
+    });
 }
 
 @end
