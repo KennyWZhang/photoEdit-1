@@ -39,8 +39,6 @@ static const CGFloat kCollectionViewCellWidth = 110.f;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.navigationController.navigationBar setHidden:NO];
 }
 
 #pragma mark - Actions
@@ -49,6 +47,30 @@ static const CGFloat kCollectionViewCellWidth = 110.f;
 {
     self.currentImage = self.currentImageView.image;
     [self.filterCollectionView reloadData];
+}
+
+- (IBAction)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)moreDetailAction:(id)sender
+{
+    UIAlertController *moreDetailsAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    
+    [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Back to original image", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]];
+    
+    [self presentViewController:moreDetailsAlertController animated:YES completion:nil];
+    
 }
 
 #pragma mark - UICollectionViewDataSource

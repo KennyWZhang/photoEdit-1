@@ -165,27 +165,64 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="YIa-U7-VaH">
                                 <rect key="frame" x="142" y="266" width="37" height="37"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bww-hm-H0Q">
+                                <rect key="frame" x="256" y="74" width="54" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="baj-M6-yne"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" title="Apply">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="applyAction:" destination="yGw-PV-Bdr" eventType="touchUpInside" id="QfP-Hy-3aF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4l-fv-Ap1">
+                                <rect key="frame" x="10" y="74" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="0Ng-rv-q0o"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" title="Back" image="arrowBckWhite">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="back:" destination="yGw-PV-Bdr" eventType="touchUpInside" id="bjC-5a-mqZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x3d-08-QPc">
+                                <rect key="frame" x="186" y="66.5" width="60" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ck2-eF-Q9c"/>
+                                    <constraint firstAttribute="width" constant="60" id="ghp-DQ-XMU"/>
+                                </constraints>
+                                <state key="normal" image="moreDetail"/>
+                                <connections>
+                                    <action selector="moreDetailAction:" destination="yGw-PV-Bdr" eventType="touchUpInside" id="S4p-Fy-Hga"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ASk-UJ-0Xz" firstAttribute="top" secondItem="5sS-Cx-mH5" secondAttribute="bottom" id="4uY-Zc-dvq"/>
+                            <constraint firstItem="E4l-fv-Ap1" firstAttribute="top" secondItem="5sS-Cx-mH5" secondAttribute="bottom" constant="10" id="GDm-t0-0m2"/>
+                            <constraint firstItem="Bww-hm-H0Q" firstAttribute="top" secondItem="5sS-Cx-mH5" secondAttribute="bottom" constant="10" id="Nut-Yb-pDw"/>
                             <constraint firstAttribute="trailing" secondItem="GgH-4m-0TY" secondAttribute="trailing" id="Oxl-lw-1no"/>
+                            <constraint firstItem="x3d-08-QPc" firstAttribute="centerY" secondItem="Bww-hm-H0Q" secondAttribute="centerY" id="RGJ-iM-YNj"/>
                             <constraint firstItem="odI-JA-h2n" firstAttribute="top" secondItem="GgH-4m-0TY" secondAttribute="bottom" id="VDg-Xh-YY4"/>
                             <constraint firstItem="GgH-4m-0TY" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="WQW-W9-vdv"/>
                             <constraint firstItem="YIa-U7-VaH" firstAttribute="centerX" secondItem="f7O-i0-GZt" secondAttribute="centerX" id="Zfl-IN-Ki4"/>
                             <constraint firstItem="ASk-UJ-0Xz" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" id="jFc-En-ASa"/>
                             <constraint firstItem="YIa-U7-VaH" firstAttribute="centerY" secondItem="f7O-i0-GZt" secondAttribute="centerY" id="ka5-ra-8Md"/>
                             <constraint firstItem="GgH-4m-0TY" firstAttribute="top" secondItem="ASk-UJ-0Xz" secondAttribute="bottom" constant="10" id="o4J-LF-zix"/>
+                            <constraint firstItem="E4l-fv-Ap1" firstAttribute="leading" secondItem="f7O-i0-GZt" secondAttribute="leading" constant="10" id="q1G-Yh-w3W"/>
+                            <constraint firstAttribute="trailing" secondItem="Bww-hm-H0Q" secondAttribute="trailing" constant="10" id="tZR-AN-FNi"/>
                             <constraint firstAttribute="trailing" secondItem="ASk-UJ-0Xz" secondAttribute="trailing" id="vN2-E0-cde"/>
+                            <constraint firstItem="Bww-hm-H0Q" firstAttribute="leading" secondItem="x3d-08-QPc" secondAttribute="trailing" constant="10" id="zSd-Cq-IkZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="opc-xj-D8c">
-                        <barButtonItem key="rightBarButtonItem" title="Apply" id="aIf-h6-UFU">
-                            <connections>
-                                <action selector="applyAction:" destination="yGw-PV-Bdr" id="iK6-r3-6RN"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="opc-xj-D8c"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="activityIndicator" destination="YIa-U7-VaH" id="Yzn-do-fKn"/>
@@ -203,7 +240,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ndg-8d-DKi" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GWA-cA-TgE">
+                    <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="GWA-cA-TgE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -223,8 +260,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrowBckWhite" width="30" height="30"/>
         <image name="backarrow" width="50" height="50"/>
         <image name="desert" width="960" height="638"/>
+        <image name="moreDetail" width="128" height="128"/>
         <image name="takePhoto" width="405" height="392"/>
     </resources>
 </document>

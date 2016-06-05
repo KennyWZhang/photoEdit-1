@@ -107,7 +107,6 @@
     [self.cameraManager takePhotoWithComplition:^(UIImage *image) {
         ImageDemonstrateController *imageVC = [weakself.storyboard instantiateViewControllerWithIdentifier:[ImageDemonstrateController storyBoardID]];
         imageVC.currentImage = image;
-        [weakself.navigationController.navigationBar setHidden:NO];
         [weakself.cameraManager restoreConnection];
         [weakself.navigationController pushViewController:imageVC animated:YES];
     }];
