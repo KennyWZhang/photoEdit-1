@@ -166,11 +166,11 @@
                                 <rect key="frame" x="142" y="266" width="37" height="37"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bww-hm-H0Q">
-                                <rect key="frame" x="256" y="74" width="54" height="35"/>
+                                <rect key="frame" x="259" y="74" width="51" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="baj-M6-yne"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Apply">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -183,7 +183,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="0Ng-rv-q0o"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Back" image="arrowBckWhite">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -192,10 +192,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x3d-08-QPc">
-                                <rect key="frame" x="186" y="66.5" width="60" height="50"/>
+                                <rect key="frame" x="199" y="71" width="50" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="ck2-eF-Q9c"/>
-                                    <constraint firstAttribute="width" constant="60" id="ghp-DQ-XMU"/>
+                                    <constraint firstAttribute="height" constant="40" id="ck2-eF-Q9c"/>
+                                    <constraint firstAttribute="width" constant="50" id="ghp-DQ-XMU"/>
                                 </constraints>
                                 <state key="normal" image="moreDetail"/>
                                 <connections>

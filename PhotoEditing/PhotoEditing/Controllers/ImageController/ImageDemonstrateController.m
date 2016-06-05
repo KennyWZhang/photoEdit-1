@@ -9,6 +9,8 @@
 #import "ImageDemonstrateController.h"
 #import "ImageFiltersManager.h"
 #import "ImageFilterCollectionViewCell.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "UIAlertView+Blocks.h"
 
 @interface ImageDemonstrateController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -16,6 +18,7 @@
 @property (nonatomic, weak) IBOutlet UICollectionView *filterCollectionView;
 @property (nonatomic, strong) NSArray<NSString *> *filtersNameDataSource;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIImage *backupImage;
 
 @end
 
@@ -56,17 +59,18 @@ static const CGFloat kCollectionViewCellWidth = 110.f;
 
 - (IBAction)moreDetailAction:(id)sender
 {
+    __weak typeof(self) weakself = self;
     UIAlertController *moreDetailsAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        [weakself savePhotoToLibrary];
     }]];
     
     [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Back to original image", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        weakself.currentImageView.image = weakself.backupImage;
     }]];
     [moreDetailsAlertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
     }]];
     
     [self presentViewController:moreDetailsAlertController animated:YES completion:nil];
@@ -150,11 +154,22 @@ static const CGFloat kCollectionViewCellWidth = 110.f;
 - (void)prepareViewController
 {
     self.currentImageView.image = self.currentImage;
+    self.backupImage = self.currentImage;
     self.filtersNameDataSource = [[ImageFiltersManager sharedInstance]filtersName];
     [self.filterCollectionView registerNib:[ImageFilterCollectionViewCell cellNib] forCellWithReuseIdentifier:[ImageFilterCollectionViewCell storyboardID]];
     self.filterCollectionView.delegate = self;
     self.filterCollectionView.dataSource = self;
     self.filterCollectionView.scrollEnabled = YES;
+}
+
+- (void)savePhotoToLibrary
+{
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    
+    [library writeImageToSavedPhotosAlbum:self.currentImageView.image.CGImage orientation:(ALAssetOrientation)[self.currentImageView.image imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
+        NSString *result = error ? @"Not saved." : @"Succesfully saved";
+        [UIAlertView showWithTitle:@"Result" message:NSLocalizedString(result, nil) handler:nil];
+    }];
 }
 
 @end
