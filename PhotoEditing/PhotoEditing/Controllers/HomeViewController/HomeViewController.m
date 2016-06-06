@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "CameraManager.h"
 #import "ImageDemonstrateController.h"
+#import "SVProgressHUD.h"
 
 @interface HomeViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -90,10 +91,16 @@
 
 - (IBAction)chosePhotoAction:(id)sender
 {
-    self.imagePicker.delegate = self;
-    self.imagePicker.allowsEditing = YES;
-    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController: self.imagePicker animated:YES completion:NULL];
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.imagePicker.delegate = self;
+        self.imagePicker.allowsEditing = YES;
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+            [self presentViewController: self.imagePicker animated:YES completion:NULL];
+        });
+    });
 }
 
 - (IBAction)backAction:(id)sender

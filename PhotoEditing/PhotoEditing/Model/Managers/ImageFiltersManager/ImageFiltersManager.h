@@ -16,9 +16,9 @@
 + (instancetype)sharedInstance;
 - (UIImage *)createImageWithUIImage:(UIImage *)originalImage withFilter:(NSString *)filter depth:(NSInteger)depth;
 - (UIImage *)processBlackFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth;
-- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage;
-- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage;
-- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage;
+- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth;
+- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth;
+- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth;
 - (UIImage *)processEdgeDetectionFilterUsingPixels:(UIImage *)inputImage;
 - (UIImage *)processEmbossFilterUsingPixels:(UIImage *)inputImage;
 

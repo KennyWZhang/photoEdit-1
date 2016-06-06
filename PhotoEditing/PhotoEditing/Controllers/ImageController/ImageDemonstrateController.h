@@ -10,7 +10,7 @@
 
 @interface ImageDemonstrateController : UIViewController
 
-@property (nonatomic, strong) UIImage *currentImage; // need hold this property in header bc we will set data from other controller
+@property (nonatomic, strong) UIImage *currentImage;// need hold this property in header bc we will set data from other controller
 
 + (NSString *)storyBoardID;
 

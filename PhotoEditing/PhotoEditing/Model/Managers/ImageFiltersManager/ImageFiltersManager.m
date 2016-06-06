@@ -40,11 +40,11 @@
     if ([filter isEqualToString:@"Grey"])
         return [self processBlackFilterUsingPixels:originalImage withDepth:depth];
     else if ([filter isEqualToString:@"Blur"])
-        return [self processBlurFilterUsingPixels:originalImage];
+        return [self processBlurFilterUsingPixels:originalImage withDepth:depth];
     else if ([filter isEqualToString:@"Motion Blur"])
-        return [self processMotionBlurFilterUsingPixels:originalImage];
+        return [self processMotionBlurFilterUsingPixels:originalImage withDepth:depth];
     else if ([filter isEqualToString:@"Sharp"])
-        return [self processSharpFilterUsingPixels:originalImage];
+        return [self processSharpFilterUsingPixels:originalImage withDepth:depth];
     else if ([filter isEqualToString:@"Original"])
         return originalImage;
     else if ([filter isEqualToString:@"Edge"])
@@ -99,7 +99,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
             UInt32 color = *currentPixel;
             UInt32 averageColor ;
             // Average of RGB = greyscale
-            if (!depth || depth > 255)
+            if (depth < 4)
                 averageColor = (R(color) + G(color) + B(color)) / 3.0;
             else
                 averageColor = (R(color) + G(color) + B(color)) / depth;
@@ -119,7 +119,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage
+- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -135,50 +135,57 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (int j = 4; j < inputHeight - 4; j++)
+    if (depth > 0 && depth <= 10)
     {
-        for (int i = 4; i < inputWidth - 4; i++)
+        for (int z = 0;z < depth ; z++)
         {
-            Float32 newRedColor = 0;
-            Float32 newGreenColor = 0;
-            Float32 newBlueColor = 0;
-            Float32 newA = 0;
-
-            for (int filterMatrixI = 0 ; filterMatrixI < filterMatrixSize ; filterMatrixI ++)
+            for (int j = 4; j < inputHeight - 4; j++)
             {
-                for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
+                for (int i = 4; i < inputWidth - 4; i++)
                 {
-                    int mirroredIndexJ = j;
-                    int mirroredIndexI = i;
+                    Float32 newRedColor = 0;
+                    Float32 newGreenColor = 0;
+                    Float32 newBlueColor = 0;
+                    Float32 newA = 0;
                     
-                    if (i < 4)
-                        mirroredIndexI = 4 - i;
-                    else if (inputWidth - i < 4)
-                        mirroredIndexI -= (4 - (inputWidth - i));
+                    for (int filterMatrixI = 0 ; filterMatrixI < filterMatrixSize ; filterMatrixI ++)
+                    {
+                        for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
+                        {
+                            int mirroredIndexJ = j;
+                            int mirroredIndexI = i;
+                            
+                            if (i < 4)
+                                mirroredIndexI = 4 - i;
+                            else if (inputWidth - i < 4)
+                                mirroredIndexI -= (4 - (inputWidth - i));
+                            
+                            if (j < 4)
+                                mirroredIndexJ = 4 - j;
+                            else if (inputHeight - j < 4)
+                                mirroredIndexJ -= (4 - (inputHeight - j));
+                            
+                            
+                            UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
+                            UInt32 color = *currentPixel;
+                            newRedColor += (R(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
+                            newGreenColor += (G(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
+                            newBlueColor += (B(color)* blurMatrix[filterMatrixI][filterMatrixJ]);
+                            newA += A(color);
+                            
+                        }
+                    }
                     
-                    if (j < 4)
-                        mirroredIndexJ = 4 - j;
-                    else if (inputHeight - j < 4)
-                        mirroredIndexJ -= (4 - (inputHeight - j));
-
+                    newRedColor /= filterMatrixSize * filterMatrixSize;
+                    newGreenColor /= filterMatrixSize * filterMatrixSize;
+                    newBlueColor /= filterMatrixSize * filterMatrixSize;
+                    newA /= filterMatrixSize * filterMatrixSize;
                     
-                    UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
-                    UInt32 color = *currentPixel;
-                    newRedColor += (R(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
-                    newGreenColor += (G(color) * blurMatrix[filterMatrixI][filterMatrixJ]);
-                    newBlueColor += (B(color)* blurMatrix[filterMatrixI][filterMatrixJ]);
-                    newA += A(color);
+                    UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
                     
+                    *currentMainImagePixel = RGBAMake((UInt32)newRedColor, (UInt32)newGreenColor, (UInt32)newBlueColor, (UInt32)newA);
                 }
             }
-            newRedColor /= filterMatrixSize * filterMatrixSize;
-            newGreenColor /= filterMatrixSize * filterMatrixSize;
-            newBlueColor /= filterMatrixSize * filterMatrixSize;
-            newA /= filterMatrixSize * filterMatrixSize;
-
-            UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
-
-            *currentMainImagePixel = RGBAMake((UInt32)newRedColor, (UInt32)newGreenColor, (UInt32)newBlueColor, (UInt32)newA);
         }
     }
     
@@ -192,7 +199,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage
+- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -208,49 +215,54 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    for (int j = 4; j < inputHeight - 4; j++)
+    if (depth > 0 && depth <= 10)
     {
-        for (int i = 4; i < inputWidth - 4; i++)
+        for (int z = 0;z < depth ; z++)
         {
-            Float32 newRedColor = 0;
-            Float32 newGreenColor = 0;
-            Float32 newBlueColor = 0;
-            Float32 newA = 0;
-            
-            for (int filterMatrixI = 0 ; filterMatrixI < filterMatrixSize ; filterMatrixI ++)
+            for (int j = 4; j < inputHeight - 4; j++)
             {
-                for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
+                for (int i = 4; i < inputWidth - 4; i++)
                 {
-                    int mirroredIndexJ = j;
-                    int mirroredIndexI = i;
+                    Float32 newRedColor = 0;
+                    Float32 newGreenColor = 0;
+                    Float32 newBlueColor = 0;
+                    Float32 newA = 0;
                     
-                    if (i < 4)
-                        mirroredIndexI = 4 - i;
-                    else if (inputWidth - i < 4)
-                        mirroredIndexI -= (4 - (inputWidth - i));
+                    for (int filterMatrixI = 0 ; filterMatrixI < filterMatrixSize ; filterMatrixI ++)
+                    {
+                        for (int filterMatrixJ = 0; filterMatrixJ < filterMatrixSize; filterMatrixJ ++)
+                        {
+                            int mirroredIndexJ = j;
+                            int mirroredIndexI = i;
+                            
+                            if (i < 4)
+                                mirroredIndexI = 4 - i;
+                            else if (inputWidth - i < 4)
+                                mirroredIndexI -= (4 - (inputWidth - i));
+                            
+                            if (j < 4)
+                                mirroredIndexJ = 4 - j;
+                            else if (inputHeight - j < 4)
+                                mirroredIndexJ -= (4 - (inputHeight - j));
+                            
+                            
+                            UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
+                            UInt32 color = *currentPixel;
+                            newRedColor += (R(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
+                            newGreenColor += (G(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
+                            newBlueColor += (B(color)* motionBlurMatrix[filterMatrixI][filterMatrixJ]);
+                            newA += (A(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
+                        }
+                    }
+                    newRedColor /= filterMatrixSize ;
+                    newGreenColor /= filterMatrixSize;
+                    newBlueColor /= filterMatrixSize ;
+                    newA /= filterMatrixSize;
                     
-                    if (j < 4)
-                        mirroredIndexJ = 4 - j;
-                    else if (inputHeight - j < 4)
-                        mirroredIndexJ -= (4 - (inputHeight - j));
+                    UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
                     
-                    
-                    UInt32 * currentPixel = inputPixels + ((mirroredIndexJ + filterMatrixJ - 4) * inputWidth) + mirroredIndexI + filterMatrixI - 4;
-                    UInt32 color = *currentPixel;
-                    newRedColor += (R(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
-                    newGreenColor += (G(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
-                    newBlueColor += (B(color)* motionBlurMatrix[filterMatrixI][filterMatrixJ]);
-                    newA += (A(color) * motionBlurMatrix[filterMatrixI][filterMatrixJ]);
-                }
-            }
-            newRedColor /= filterMatrixSize ;
-            newGreenColor /= filterMatrixSize;
-            newBlueColor /= filterMatrixSize ;
-            newA /= filterMatrixSize;
-            
-            UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
-            
-            *currentMainImagePixel = RGBAMake(MIN((UInt32)newRedColor,255), MIN((UInt32)newGreenColor,255), MIN((UInt32)newBlueColor,255), (UInt32)newA);
+                    *currentMainImagePixel = RGBAMake(MIN((UInt32)newRedColor,255), MIN((UInt32)newGreenColor,255), MIN((UInt32)newBlueColor,255), (UInt32)newA);
+                }}
         }
     }
     
@@ -264,7 +276,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage
+- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -281,6 +293,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     UInt32 *origPixels = calloc(inputHeight * inputWidth, sizeof(UInt32));
     memcpy(origPixels, inputPixels, inputHeight * inputWidth * sizeof(UInt32));
+    
     for (int j = 1; j < inputHeight - 1; j++)
     {
         for (int i = 1; i < inputWidth - 1; i++)
@@ -299,7 +312,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                     newRedColor += (R(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                     newGreenColor += (G(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                     newBlueColor += (B(color)* sharpMatrix[filterMatrixI][filterMatrixJ]);
-                     newA += (A(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
+                    newA += (A(color) * sharpMatrix[filterMatrixI][filterMatrixJ]);
                 }
             }
             
@@ -307,7 +320,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
             int b = MAX( MIN((int)newBlueColor,255), 0);
             int g = MAX( MIN((int)newGreenColor,255), 0);
             int a = MAX( MIN((int)newA,255), 0);
-
+            
             UInt32 *currentMainImagePixel = inputPixels + (j * inputWidth) + i;
             *currentMainImagePixel = RGBAMake(r,g,b,a);
         }

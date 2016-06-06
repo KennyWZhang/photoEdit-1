@@ -106,7 +106,7 @@ static const CGFloat kSliderTopOffset = 40.f;
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:newImage withFilter:self.filtersNameDataSource[indexPath.row] depth:nil];
+        UIImage *image = [[ImageFiltersManager sharedInstance] createImageWithUIImage:newImage withFilter:self.filtersNameDataSource[indexPath.row] depth:1];
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.image = image;
             [cell.activityIndicator stopAnimating];
@@ -159,12 +159,6 @@ static const CGFloat kSliderTopOffset = 40.f;
 
 
 #pragma mark - private methods
-
-- (IBAction)processPhoto:(id)sender
-{
-    self.currentImageView.image = [[ImageFiltersManager sharedInstance] processSharpFilterUsingPixels:self.currentImage];
-    self.currentImage = self.currentImageView.image;
-}
 
 - (void)prepareViewController
 {
