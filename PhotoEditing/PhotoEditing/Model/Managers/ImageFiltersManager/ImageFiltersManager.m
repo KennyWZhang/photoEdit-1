@@ -48,9 +48,7 @@
     else if ([filter isEqualToString:@"Original"])
         return originalImage;
     else if ([filter isEqualToString:@"Edge"])
-        return [self processEdgeDetectionFilterUsingPixels:originalImage];
-    else if ([filter isEqualToString:@"Emboss"])
-        return [self processEmbossFilterUsingPixels:originalImage];
+        return [self processEdgeDetectionFilterUsingPixels:originalImage withDepth:1];
     else
         return nil;
 }
@@ -99,10 +97,8 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
             UInt32 color = *currentPixel;
             UInt32 averageColor ;
             // Average of RGB = greyscale
-            if (depth < 4)
-                averageColor = (R(color) + G(color) + B(color)) / 3.0;
-            else
-                averageColor = (R(color) + G(color) + B(color)) / depth;
+
+            averageColor = (R(color) + G(color) + B(color)) / (depth + 4);
             
             *currentPixel = RGBAMake(averageColor, averageColor, averageColor, A(color));
         }
@@ -119,7 +115,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
+- (UIImage *)processBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -135,9 +131,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    if (depth > 0 && depth <= 10)
+    if (depth >= 0 && depth < 5)
     {
-        for (int z = 0;z < depth ; z++)
+        for (int z = 0;z < depth + 1; z++)
         {
             for (int j = 4; j < inputHeight - 4; j++)
             {
@@ -199,7 +195,7 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
+- (UIImage *)processMotionBlurFilterUsingPixels:(UIImage *)inputImage withDepth:(NSInteger)depth
 {
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
@@ -215,9 +211,9 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGContextDrawImage(context, CGRectMake(0, 0, inputWidth, inputHeight), inputCGImage);
     
-    if (depth > 0 && depth <= 10)
+    if (depth >= 0 && depth < 5)
     {
-        for (int z = 0;z < depth ; z++)
+        for (int z = 0;z < depth + 1 ; z++)
         {
             for (int j = 4; j < inputHeight - 4; j++)
             {
@@ -276,8 +272,13 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     return processedImage;
 }
 
-- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage withDepth:(NSUInteger)depth
+- (UIImage *)processSharpFilterUsingPixels:(UIImage *)inputImage withDepth:(NSInteger)depth
 {
+    UIImage * processedImage = inputImage;
+    
+    if (depth <= 0)
+        return processedImage;
+    
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
     NSUInteger inputWidth = CGImageGetWidth(inputCGImage);
@@ -327,18 +328,23 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     }
     
     CGImageRef newCGImage = CGBitmapContextCreateImage(context);
-    UIImage * processedImage = [UIImage imageWithCGImage:newCGImage];
+    processedImage = [UIImage imageWithCGImage:newCGImage];
     
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     free(inputPixels);
     free(origPixels);
     
-    return processedImage;
+    return [self processSharpFilterUsingPixels:processedImage withDepth:--depth];
 }
 
-- (UIImage *)processEdgeDetectionFilterUsingPixels:(UIImage *)inputImage
+- (UIImage *)processEdgeDetectionFilterUsingPixels:(UIImage *)inputImage withDepth:(NSInteger)depth
 {
+    UIImage * processedImage = inputImage;
+    
+    if (depth <= 0)
+        return processedImage;
+    
     UInt32 *inputPixels;
     CGImageRef inputCGImage = [inputImage CGImage];
     NSUInteger inputWidth = CGImageGetWidth(inputCGImage);
@@ -387,14 +393,14 @@ static const int embossMatrix[filterSmallMatrixSize][filterSmallMatrixSize] = {{
     }
     
     CGImageRef newCGImage = CGBitmapContextCreateImage(context);
-    UIImage * processedImage = [UIImage imageWithCGImage:newCGImage];
+    processedImage = [UIImage imageWithCGImage:newCGImage];
     
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     free(inputPixels);
     free(origPixels);
     
-    return processedImage;
+    return [self processSharpFilterUsingPixels:processedImage withDepth:--depth];
 }
 
 - (UIImage *)processEmbossFilterUsingPixels:(UIImage *)inputImage

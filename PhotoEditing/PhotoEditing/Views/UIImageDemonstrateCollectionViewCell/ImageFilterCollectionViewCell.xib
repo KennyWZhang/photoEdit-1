@@ -13,31 +13,42 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="228" height="214"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TZp-xi-N62">
-                        <rect key="frame" x="0.0" y="0.0" width="228" height="184"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TZp-xi-N62">
+                        <rect key="frame" x="0.0" y="0.0" width="228" height="214"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGf-oX-dG8">
-                        <rect key="frame" x="93" y="189" width="43" height="20"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NWn-9v-6K0">
-                        <rect key="frame" x="105" y="96" width="20" height="20"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zN0-9R-5Np">
+                        <rect key="frame" x="0.0" y="184" width="228" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGf-oX-dG8">
+                                <rect key="frame" x="92" y="5" width="44" height="22"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="EGf-oX-dG8" firstAttribute="centerY" secondItem="zN0-9R-5Np" secondAttribute="centerY" id="0TY-gx-cGx"/>
+                            <constraint firstItem="EGf-oX-dG8" firstAttribute="centerX" secondItem="zN0-9R-5Np" secondAttribute="centerX" id="OyX-c9-qZx"/>
+                            <constraint firstAttribute="height" constant="30" id="Wyo-N7-eli"/>
+                        </constraints>
+                    </view>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NWn-9v-6K0">
+                        <rect key="frame" x="104" y="97" width="20" height="20"/>
                     </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="EGf-oX-dG8" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="3Ap-Rt-63M"/>
-                <constraint firstAttribute="bottom" secondItem="EGf-oX-dG8" secondAttribute="bottom" constant="5" id="CeT-Zd-0AD"/>
+                <constraint firstAttribute="trailing" secondItem="zN0-9R-5Np" secondAttribute="trailing" id="AR3-gY-cCd"/>
                 <constraint firstItem="TZp-xi-N62" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="F6n-DI-lfW"/>
-                <constraint firstItem="NWn-9v-6K0" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="MwJ-ee-rx5"/>
-                <constraint firstItem="EGf-oX-dG8" firstAttribute="top" secondItem="TZp-xi-N62" secondAttribute="bottom" constant="5" id="VN1-j7-dgW"/>
-                <constraint firstItem="NWn-9v-6K0" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ZYM-86-yxm"/>
+                <constraint firstAttribute="bottom" secondItem="zN0-9R-5Np" secondAttribute="bottom" id="S44-DG-5oG"/>
+                <constraint firstItem="NWn-9v-6K0" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ebw-n6-j3R"/>
                 <constraint firstAttribute="trailing" secondItem="TZp-xi-N62" secondAttribute="trailing" id="euZ-Ur-7c4"/>
+                <constraint firstItem="zN0-9R-5Np" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fL7-Cc-MCC"/>
                 <constraint firstItem="TZp-xi-N62" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mGr-OE-mBk"/>
+                <constraint firstItem="NWn-9v-6K0" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="pd1-RI-ugz"/>
+                <constraint firstAttribute="bottom" secondItem="TZp-xi-N62" secondAttribute="bottom" id="uzK-8v-MeO"/>
             </constraints>
             <size key="customSize" width="228" height="214"/>
             <connections>
